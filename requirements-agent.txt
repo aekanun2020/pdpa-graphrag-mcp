@@ -1,0 +1,4 @@
+# Agent side only (labs/lab7, labs/lab8). The server's dependencies live in requirements.txt / the Docker image.
+openai>=1.40.0
+httpx>=0.27.0
+python-dotenv>=1.0.0

@@ -1,0 +1,30 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    restart: unless-stopped
+
+  mcp-pdpa-rag:
+    build:
+      context: .
+    container_name: mcp-pdpa-rag
+    depends_on:
+      - qdrant
+    ports:
+      - "8100:8100"
+    volumes:
+      - ./data:/app/data
+    env_file:
+      - .env
+    environment:
+      - QDRANT_HOST=qdrant        # set to host.docker.internal if you run Qdrant outside compose
+      - QDRANT_PORT=6333
+      - DATA_DIR=/app/data
+    restart: unless-stopped
+
+volumes:
+  qdrant_storage:
